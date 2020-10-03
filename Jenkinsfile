@@ -3,19 +3,25 @@ pipeline {
 	agent {docker {image 'maven:3.6.3'}}
 	stages {
 		stage('Build'){
-			steps{
+			steps {
 				sh "mvn --version"
 				echo "Build"
 			}
 		}
+		stage('Compile'){
+			steps {
+				SH "mvn clean compile"
+			}
+		}
+
 		stage('Test'){
-			steps{
-				echo "Build"
+			steps {
+				sh "mvn test"
 			}
 		}
 		stage('Integration Test'){
-			steps{
-				echo "Build"
+			steps {
+				sh "mvn failsafe:integration-test failsafe:verify"
 			}
 		}
 	}
